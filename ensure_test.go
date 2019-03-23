@@ -19,9 +19,3 @@ func TestMake(t *testing.T) {
 	e.Ensure(v).Is(10)
 	e.Ensure(v).IsNot(11)
 }
-
-func TestFail(t *testing.T) {
-	e := Make(t)
-	s := ""
-	e.Ensure(s).IsNotEmpty()
-}
