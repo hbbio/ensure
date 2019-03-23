@@ -9,9 +9,8 @@ import (
 // Testable respresents a value to test
 type Testable struct {
 	Test   *testing.T
-	Error  *error
-	String *string
-	Int    *int
+	Error  error
+	String string
 	Value  interface{}
 }
 
@@ -36,7 +35,7 @@ func (t Testable) Is(v interface{}) {
 		log.Fatalf("%v: do not use 'Is' for errors\n", t.Test.Name())
 	case string:
 		s := v.(string)
-		if s != *t.String {
+		if s != t.String {
 			log.Fatalf("%v: should have similar values (is: '%v', expected: '%v')\n", t.Test.Name(), t.String, s)
 		}
 	default:
@@ -53,7 +52,7 @@ func (t Testable) IsNot(v interface{}) {
 		log.Fatalf("%v: do not use 'Is' for errors\n", t.Test.Name())
 	case string:
 		s := v.(string)
-		if s == *t.String {
+		if s == t.String {
 			log.Fatalf("%v: should have different values (value: '%v')\n", t.Test.Name(), s)
 		}
 	default:
@@ -65,7 +64,7 @@ func (t Testable) IsNot(v interface{}) {
 
 // IsNotEmpty expect the Testable to be a non-empty string
 func (t Testable) IsNotEmpty() {
-	if len(*t.String) == 0 {
+	if len(t.String) == 0 {
 		log.Fatalf("%v: string should not be empty", t.Test.Name())
 	}
 }
@@ -74,10 +73,10 @@ func makeEnsure(v interface{}, t *testing.T) Testable {
 	switch v.(type) {
 	case error:
 		err := v.(error)
-		return Testable{Test: t, Error: &err}
+		return Testable{Test: t, Error: err}
 	case string:
 		s := v.(string)
-		return Testable{Test: t, String: &s}
+		return Testable{Test: t, String: s}
 	default:
 		return Testable{Test: t, Value: v}
 	}

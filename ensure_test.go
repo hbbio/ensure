@@ -13,6 +13,7 @@ func TestMake(t *testing.T) {
 	e.Ensure(err).Succeeds()
 	s := "foo"
 	e.Ensure(s).Is("foo")
+	e.Ensure("foo").Is("foo")
 	e.Ensure(s).IsNot("bar")
 	e.Ensure(s).IsNotEmpty()
 	v := 10
