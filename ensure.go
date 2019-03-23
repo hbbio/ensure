@@ -1,3 +1,4 @@
+// Package ensure is a minimal Go package that eases writing tests.
 package ensure
 
 import (
@@ -17,14 +18,14 @@ type Testable struct {
 // Succeeds expects the Testable (error) to pass
 func (t Testable) Succeeds() {
 	if t.Error != nil {
-		log.Fatalf("%v fails with error: %v\n", t.Test.Name(), t.Error)
+		log.Fatalf("%v: fails with error '%v'\n", t.Test.Name(), t.Error)
 	}
 }
 
 // Fails expects the Testable (error) to fail
 func (t Testable) Fails() {
 	if t.Error == nil {
-		log.Fatalf("%v should have failed\n", t.Test.Name())
+		log.Fatalf("%v: should have failed\n", t.Test.Name())
 	}
 }
 
@@ -32,15 +33,15 @@ func (t Testable) Fails() {
 func (t Testable) Is(v interface{}) {
 	switch v.(type) {
 	case error:
-		log.Fatalf("%v: do not use 'Is' for errors", t.Test.Name())
+		log.Fatalf("%v: do not use 'Is' for errors\n", t.Test.Name())
 	case string:
 		s := v.(string)
 		if s != *t.String {
-			log.Fatalf("%v should have similar values (is: %v, expected: %v)", t.Test.Name(), t.String, s)
+			log.Fatalf("%v: should have similar values (is: '%v', expected: '%v')\n", t.Test.Name(), t.String, s)
 		}
 	default:
 		if v != t.Value {
-			log.Fatalf("%v should have similar values (is: %v, expected: %v)", t.Test.Name(), t.Value, v)
+			log.Fatalf("%v: should have similar values (is: '%v', expected: '%v')\n", t.Test.Name(), t.Value, v)
 		}
 	}
 }
@@ -49,16 +50,23 @@ func (t Testable) Is(v interface{}) {
 func (t Testable) IsNot(v interface{}) {
 	switch v.(type) {
 	case error:
-		log.Fatalf("%v: do not use 'Is' for errors", t.Test.Name())
+		log.Fatalf("%v: do not use 'Is' for errors\n", t.Test.Name())
 	case string:
 		s := v.(string)
 		if s == *t.String {
-			log.Fatalf("%v should have different values (is: %v, expected: %v)", t.Test.Name(), t.String, s)
+			log.Fatalf("%v: should have different values (value: '%v')\n", t.Test.Name(), s)
 		}
 	default:
 		if v == t.Value {
-			log.Fatalf("%v should have different values (is: %v, expected: %v)", t.Test.Name(), t.Value, v)
+			log.Fatalf("%v: should have different values (value: '%v')\n", t.Test.Name(), v)
 		}
+	}
+}
+
+// IsNotEmpty expect the Testable to be a non-empty string
+func (t Testable) IsNotEmpty() {
+	if len(*t.String) == 0 {
+		log.Fatalf("%v: string should not be empty", t.Test.Name())
 	}
 }
 

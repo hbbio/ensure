@@ -1,5 +1,9 @@
 `ensure` is a minimal Go package that eases writing tests.
 
+[![GoDoc](https://godoc.org/github.com/hbbio/ensure?status.svg)](https://godoc.org/github.com/hbbio/ensure)
+[![Build
+Status](https://travis-ci.org/hbbio/ensure.svg?branch=master)](https://travis-ci.org/hbbio/ensure)
+
 # Example
 
 ```go
@@ -10,6 +14,7 @@ func TestXXX(t *testing.T) {
     ...
 	e.Ensure(...another func call...).Succeeds()
     ...
+    e.Ensure(...).Is(value)
 }
 ```
 
@@ -38,10 +43,16 @@ if err == nil {
 
 You can also directly call `ensure.Ensure` without calling `Make`.
 
-# Supported types
+# Supported types and checks
 
 As of now, `ensure` just support a few types but might be expanded in the future.
 
+| Type                | Checks                  |
+| ------------------- | ----------------------- |
+| error               | Succeeds(), Fails()     |
+| string              | IsNotEmpty()            |
+| anything but errors | Is(value), IsNot(value) |
+
 # About
 
-Written by @hbbio and released under the MIT license.
+Written by [@hbbio](https://github.com/hbbio) and released under the MIT license.
