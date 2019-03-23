@@ -4,21 +4,20 @@
 [![Build
 Status](https://travis-ci.org/hbbio/ensure.svg?branch=master)](https://travis-ci.org/hbbio/ensure)
 
-# Example
+## Examples
 
 ```go
 func TestXXX(t *testing.T) {
-	e := ensure.Make(t)
-    // ...
-	e.Ensure(someFunc(xxx)).Fails()
-    // ...
-	e.Ensure(anotherFunc(yyy)).Succeeds()
-    // ...
-    e.Ensure(...).Is(value)
+  e := ensure.Make(t)
+  e.Ensure(os.Remove("/etc/pAsswd")).Fails()
+  e.Ensure(os.Setenv("ENSURE", "ISCOOL")).Succeeds()
+  s := "foo"
+  e.Ensure(s).Is("foo")
+  e.Ensure(s).IsNot("bar")
 }
 ```
 
-# Why
+## Why
 
 I wanted a minimal (no dependencies) way to avoid writing long test files that need to create their own error messages and that maximize readability in a single line.
 
@@ -37,13 +36,23 @@ if err == nil {
 }
 ```
 
-[gomega](https://onsi.github.io/gomega/) is a more full-featured assertion library but is too big for me and has too many dependencies (including the whole Ginkgo framework).
-
-# Usage without `testing` integration
-
 You can also directly call `ensure.Ensure` without calling `Make`.
 
-# Supported types and checks
+## Alternatives
+
+There are several packages, which are full-featured assertion libraries, that do more things but with (much) more code and dependencies:
+
+- [gomega](https://onsi.github.io/gomega/)
+- [testify](https://github.com/stretchr/testify)
+- [check](https://github.com/go-check/check)
+
+## Installation
+
+```sh
+go get github.com/hbbio/ensure
+```
+
+## Supported types and checks
 
 As of now, `ensure` only supports a few types but might be expanded in the future.
 
@@ -53,6 +62,6 @@ As of now, `ensure` only supports a few types but might be expanded in the futur
 | string              | IsNotEmpty()            |
 | anything but errors | Is(value), IsNot(value) |
 
-# About
+## About
 
 Written by [@hbbio](https://github.com/hbbio) and released under the MIT license.

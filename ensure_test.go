@@ -15,6 +15,8 @@ func TestMake(t *testing.T) {
 	e.Ensure(s).Is("foo")
 	e.Ensure("foo").Is("foo")
 	e.Ensure(s).IsNot("bar")
+	s2 := s
+	e.Ensure(s).Is(s2)
 	e.Ensure(s).IsNotEmpty()
 	v := 10
 	e.Ensure(v).Is(10)
