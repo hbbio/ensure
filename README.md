@@ -10,9 +10,9 @@ Status](https://travis-ci.org/hbbio/ensure.svg?branch=master)](https://travis-ci
 func TestXXX(t *testing.T) {
 	e := ensure.Make(t)
     // ...
-	e.Ensure(...some func call...).Fails()
+	e.Ensure(someFunc(xxx)).Fails()
     // ...
-	e.Ensure(...another func call...).Succeeds()
+	e.Ensure(anotherFunc(yyy)).Succeeds()
     // ...
     e.Ensure(...).Is(value)
 }
@@ -25,13 +25,13 @@ I wanted a minimal (no dependencies) way to avoid writing long test files that n
 Write:
 
 ```go
-e.Ensure(...some func call...).Fails()
+e.Ensure(someFunc(xxx)).Fails()
 ```
 
 instead of
 
 ```go
-err := ...some func call...
+err := someFunc(xxx)
 if err == nil {
     log.Fatalf("this should have failed (test %v)", t.Name())
 }
@@ -45,7 +45,7 @@ You can also directly call `ensure.Ensure` without calling `Make`.
 
 # Supported types and checks
 
-As of now, `ensure` just support a few types but might be expanded in the future.
+As of now, `ensure` only supports a few types but might be expanded in the future.
 
 | Type                | Checks                  |
 | ------------------- | ----------------------- |
