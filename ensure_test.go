@@ -39,5 +39,5 @@ func TestInt(t *testing.T) {
 func TestEnsure2(t *testing.T) {
 	e := Make(t)
 	_, v := e.Ensure2(ioutil.ReadFile("/etc/passwd"))
-	v.Succeeds()
+	v.Succeeds("in reading /etc/passwd")
 }

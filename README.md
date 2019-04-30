@@ -14,6 +14,8 @@ func TestXXX(t *testing.T) {
   s := "foo"
   e.Ensure(s).Is("foo")
   e.Ensure(s).IsNot("bar")
+  _, v := e.Ensure2(ioutil.ReadFile("/etc/passwd"))
+  v.Succeeds("in reading /etc/passwd")
 }
 ```
 
