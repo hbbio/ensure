@@ -3,7 +3,6 @@ package ensure
 
 import (
 	"fmt"
-	"log"
 	"testing"
 )
 
@@ -15,17 +14,12 @@ type Testable struct {
 	Value  interface{}
 }
 
-// func s(f string, v ...interface{}) string {
-// 	return fmt.Sprintf(f, v)
-// }
+// shortcut
 var s = fmt.Sprintf
 
 // Fatal stops with fatal error.
 func (t *Testable) Fatal(msg string, what []string) {
-	if len(what) > 0 {
-		log.Println(what)
-	}
-	t.Test.Fatal(s("%s: %s\n", t.Test.Name(), msg))
+	t.Test.Fatal(s("%s: %v\n--> %s\n", t.Test.Name(), what, msg))
 }
 
 // Succeeds expects the Testable (error) to pass.
