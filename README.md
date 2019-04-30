@@ -10,7 +10,7 @@ Status](https://travis-ci.org/hbbio/ensure.svg?branch=master)](https://travis-ci
 func TestXXX(t *testing.T) {
   e := ensure.Make(t)
   e.Ensure(os.Remove("/etc/pAsswd")).Fails()
-  e.Ensure(os.Setenv("ENSURE", "ISCOOL")).Succeeds()
+  e.Ensure(os.Setenv("ENSURE", "is cool")).Succeeds()
   s := "foo"
   e.Ensure(s).Is("foo")
   e.Ensure(s).IsNot("bar")
