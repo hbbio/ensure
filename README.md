@@ -33,8 +33,8 @@ instead of
 
 ```go
 err := someFunc(xxx)
-if err == nil {
-    log.Fatalf("this should have failed (test %v)", t.Name())
+if err != nil {
+    t.Fatalf("test should have failed: error=%v", err)
 }
 ```
 

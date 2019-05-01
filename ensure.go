@@ -97,8 +97,8 @@ func makeEnsure(v interface{}, t *testing.T) *Testable {
 }
 
 // Ensure creates a Testable result (without testing integration).
-func Ensure(v interface{}) *Testable {
-	return makeEnsure(v, nil)
+func Ensure(t *testing.T, v interface{}) *Testable {
+	return makeEnsure(v, t)
 }
 
 // T represents an Ensure for a test.

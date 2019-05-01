@@ -6,6 +6,16 @@ import (
 	"testing"
 )
 
+func TestDirect(t *testing.T) {
+	Ensure(t, nil).Succeeds("ensure succeeds")
+	// defer func() {
+	// 	if r := recover(); r != nil {
+	// 		log.Printf("recovered: %v", r)
+	// 	}
+	// }()
+	// Ensure(t, nil).Fails("ensure fails")
+}
+
 func TestMake(t *testing.T) {
 	e := Make(t)
 	e.Ensure(nil).Succeeds()
