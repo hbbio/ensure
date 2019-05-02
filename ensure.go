@@ -9,10 +9,11 @@ import (
 
 // Testable respresents a value to test.
 type Testable struct {
-	Test   *testing.T
-	Error  error
-	String string
-	Value  interface{}
+	Test        *testing.T
+	Error       error
+	String      string
+	Value       interface{}
+	ReturnValue *interface{}
 }
 
 // shortcut
@@ -37,6 +38,14 @@ func (t *Testable) Fails(what ...string) *Testable {
 		t.Fatal("should have failed", what)
 	}
 	return t
+}
+
+// Return returns the stored value.
+func (t *Testable) Return(what ...string) interface{} {
+	if t.ReturnValue == nil {
+		t.Fatal("no return value stored", what)
+	}
+	return *t.ReturnValue
 }
 
 // Contains expects the Testable to be a string that contains the substring.
@@ -113,13 +122,17 @@ func Ensure(t *testing.T, v interface{}) *Testable {
 // T represents an Ensure for a test.
 type T struct {
 	Ensure  func(v interface{}) *Testable
-	Ensure2 func(res, v interface{}) (interface{}, *Testable)
+	Ensure2 func(res, v interface{}) *Testable
 }
 
 // Make returns the Ensure function integrated with testing.
 func Make(t *testing.T) T {
 	return T{
-		Ensure:  func(v interface{}) *Testable { return makeEnsure(v, t) },
-		Ensure2: func(res, v interface{}) (interface{}, *Testable) { return res, makeEnsure(v, t) },
+		Ensure: func(v interface{}) *Testable { return makeEnsure(v, t) },
+		Ensure2: func(res, v interface{}) *Testable {
+			e := makeEnsure(v, t)
+			e.ReturnValue = &res
+			return e
+		},
 	}
 }

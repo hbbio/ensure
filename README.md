@@ -9,13 +9,14 @@ Status](https://travis-ci.org/hbbio/ensure.svg?branch=master)](https://travis-ci
 ```go
 func TestXXX(t *testing.T) {
   e := ensure.Make(t)
+  // single return value
   e.Ensure(os.Remove("/etc/pAsswd")).Fails()
   e.Ensure(os.Setenv("ENSURE", "is cool")).Succeeds()
   s := "foo"
-  e.Ensure(s).Is("foo")
-  e.Ensure(s).IsNot("bar")
-  _, v := e.Ensure2(ioutil.ReadFile("/etc/passwd"))
-  v.Succeeds("in reading /etc/passwd")
+  e.Ensure(s).Is("foo").IsNot("bar") // chain
+  e.Ensure(s).Contains("fo")
+  // double return values tests the second value
+  f := e.Ensure2(os.Open("/etc/passwd")).Succeeds("in reading /etc/passwd").Return()
 }
 ```
 

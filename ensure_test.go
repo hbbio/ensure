@@ -2,7 +2,8 @@ package ensure
 
 import (
 	"errors"
-	"io/ioutil"
+	"os"
+	"strconv"
 	"testing"
 )
 
@@ -49,6 +50,7 @@ func TestInt(t *testing.T) {
 
 func TestEnsure2(t *testing.T) {
 	e := Make(t)
-	_, v := e.Ensure2(ioutil.ReadFile("/etc/passwd"))
-	v.Succeeds("in reading /etc/passwd")
+	e.Ensure2(os.Open("/etc/passwd")).Succeeds("in opening /etc/passwd")
+	b := e.Ensure2(strconv.ParseBool("true")).Succeeds().Return()
+	e.Ensure(b).Is(true)
 }
