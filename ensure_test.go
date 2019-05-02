@@ -35,6 +35,7 @@ func TestString(t *testing.T) {
 	e.Ensure(s).Is("foo")
 	e.Ensure("foo").Is("foo")
 	e.Ensure(s).IsNot("bar")
+	e.Ensure(s).Contains("fo")
 	s2 := s
 	e.Ensure(s).Is(s2)
 	e.Ensure(s).IsNotEmpty()

@@ -3,6 +3,7 @@ package ensure
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -34,6 +35,14 @@ func (t *Testable) Succeeds(what ...string) *Testable {
 func (t *Testable) Fails(what ...string) *Testable {
 	if t.Error == nil {
 		t.Fatal("should have failed", what)
+	}
+	return t
+}
+
+// Contains expects the Testable to be a string that contains the substring.
+func (t *Testable) Contains(sub string, what ...string) *Testable {
+	if !strings.Contains(t.String, sub) {
+		t.Fatal(s("'%s' should contain '%s'", t.String, sub), what)
 	}
 	return t
 }
