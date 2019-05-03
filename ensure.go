@@ -3,6 +3,7 @@ package ensure
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -67,7 +68,7 @@ func (t *Testable) Is(v interface{}, what ...string) *Testable {
 			t.Fatal(s("should have similar values (is: '%v', expected: '%v')", t.String, str), what)
 		}
 	default:
-		if v != t.Value {
+		if !reflect.DeepEqual(v, t.Value) {
 			t.Fatal(s("should have similar values (is: '%v', expected: '%v')", t.Value, v), what)
 		}
 	}
@@ -85,7 +86,7 @@ func (t *Testable) IsNot(v interface{}, what ...string) *Testable {
 			t.Fatal(s("should have different values (value: '%v')", str), what)
 		}
 	default:
-		if v == t.Value {
+		if reflect.DeepEqual(v, t.Value) {
 			t.Fatal(s("should have different values (value: '%v')", v), what)
 		}
 	}
